@@ -11,17 +11,40 @@ spring:
         default_schema: project
         dialect: org.hibernate.dialect.PostgreSQLDialect
         show-sql: true
-        ddl-auto: none
+        format_sql: true
+    hibernate:
+      ddl-auto: update
     open-in-view: false
+    generate-ddl: true
+    show-sql: true
   flyway:
     enabled: true
     baseline-on-migrate: true
     validate-on-migrate: false
     table: project_schema_version
     baseline-version: 0
+    locations: classpath:db/migration,classpath:db.migration
+    out-of-order: true
+    clean-disabled: false
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data.sql
+      continue-on-error: true
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  mail:
+    host: sandbox.smtp.mailtrap.io
+    port: 2525
+    username: your_mailtrap_username
+    password: your_mailtrap_password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 vars:
   security:
@@ -38,6 +61,18 @@ admin:
   username: admin
   email: admin@admin.com
   password: admin
+
+# SpringDoc OpenAPI Configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+    filter: true
+  packages-to-scan: com.mobylab.springbackend.controller
+  pathsToMatch: /api/**
 
 
 
